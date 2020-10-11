@@ -57,8 +57,6 @@ export default function DenseAppBar(props) {
         onClose={handleClose}
       >
         <Link className={classes.link} to="/produtos/form"><MenuItem onClick={handleClose}>Adicionar</MenuItem></Link>
-        <MenuItem onClick={handleClose}>Editar</MenuItem>
-        <MenuItem onClick={handleClose}>Remover</MenuItem>
       </Menu>
     </div>
   );
