@@ -4,6 +4,7 @@ class Tabelas {
         this.conexao = conexao
 
         this.criarProdutos()
+        this.criarUsuarios()
     }
 
     criarProdutos() {
@@ -16,6 +17,21 @@ class Tabelas {
                 console.log(erro)
             } else {
                 console.log('Tabela Atendimentos criada com sucesso')
+            }
+        }
+        )
+    }
+
+    criarUsuarios() {
+        const sql = `CREATE TABLE IF NOT EXISTS Usuarios (id int NOT NULL AUTO_INCREMENT,
+            nome varchar(70) NOT NULL, sobrenome varchar(80), email varchar(30) NOT NULL,
+            senha varchar(15),PRIMARY KEY(id))`
+
+        this.conexao.query(sql, erro => {
+            if (erro) {
+                console.log(erro)
+            } else {
+                console.log('Tabela Usuarios criada com sucesso')
             }
         }
         )
