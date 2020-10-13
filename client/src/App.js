@@ -5,6 +5,8 @@ import './App.css';
 //Pages
 import produtos from './pages/produtos/produtos';
 import form from './pages/produtos/form';
+import login from './pages/user/Login';
+import signUp from './pages/user/Signup';
 
 class App extends Component {
   render() {
@@ -15,6 +17,8 @@ class App extends Component {
             <Switch>
               <Route exact path="/produtos" component={produtos} />
               <Route exact path="/produtos/form" component={form} />
+              <Route exact path="/" component={login} />
+              <Route exact path="/signup" component={signUp} />
             </Switch>
           </div>
         </Router>
