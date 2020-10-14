@@ -4,7 +4,11 @@ const validator = require('../util/validator')
 module.exports = (app) => {
 
     app.get('/produtos', (req, res) => {
-        produtos.lista(res)
+        produtos.lista()
+            .then(lista => {
+                return res.status(200).json(lista)
+            })
+            .catch(erro => res.status(400).json(erro))
     })
 
     app.post('/produtos', (req, res) => {
@@ -12,17 +16,29 @@ module.exports = (app) => {
         const { valid, errosForm } = validator.validaForm(produto);
         if (!valid) return res.status(400).json(errosForm)
 
-        produtos.adiciona(produto, res)
+        produtos.adiciona(produto)
+            .then(() => {
+                return res.status(200).json('Produto adicionado com sucesso')
+            })
+            .catch(erro => res.status(400).json(erro))
     })
 
     app.delete('/produtos/:id', (req, res) => {
         const id = parseInt(req.params.id)
-        produtos.remove(id, res)
+        produtos.remove(id)
+            .then(() => {
+                return res.status(200).json('Produto deletado com Sucesso')
+            })
+            .catch(erro => res.status(400).json(erro))
     })
 
-    app.patch('/produtos/:id', (req, res) => {
+    app.put('/produtos/:id', (req, res) => {
         const id = parseInt(req.params.id)
         const produto = req.body
-        produtos.edita(id, produto, res)
+        produtos.edita(id, produto)
+            .then(() => {
+                return res.status(200).json('Produto alterado com Sucesso')
+            })
+            .catch(erro => res.status(400).json(erro))
     })
 }
