@@ -33,8 +33,8 @@ class Validador {
             errosSignUp.email = 'Não é um email válido'
         }
         if (this.isEmpty(usuario.nome.trim())) errosSignUp.nome = 'Nome não pode ser nulo'
-        if (this.isEmpty(usuario.sobrenome.trim())) errosSignUp.nome = 'Nome não pode ser nulo'
-        if (this.isEmpty(usuario.senha.trim())) errosSignUp.nome = 'Nome não pode ser nulo'
+        if (this.isEmpty(usuario.sobrenome.trim())) errosSignUp.sobrenome = 'Nome não pode ser nulo'
+        if (this.isEmpty(usuario.senha.trim())) errosSignUp.senha = 'Nome não pode ser nulo'
 
         return {
             errosSignUp,
