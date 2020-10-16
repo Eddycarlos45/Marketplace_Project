@@ -30,8 +30,7 @@ export class form extends Component {
             tipo: '',
             valor: '',
             quantidade: '',
-            errors: {},
-            api: 'http://localhost:3030'
+            errors: {}
         }
     }
 
@@ -53,7 +52,7 @@ export class form extends Component {
             observacoes: '',
         }
 
-        axios.post(this.state.api + '/produtos', produto)
+        axios.post('http://localhost:3030/produtos', produto)
             .then(res => {
                 alert('Produto cadastrado com sucesso')
                 window.location.replace("http://localhost:3000/produtos/")
