@@ -1,5 +1,7 @@
 const usuarios = require('../models/usuarios');
 const validator = require('../util/validator')
+const jwt = require('jsonwebtoken')
+const authConfig = require('../config/auth.json')
 
 module.exports = (app) => {
 
@@ -12,13 +14,18 @@ module.exports = (app) => {
     })
 
     app.post('/login', (req, res) => {
-        const email = req.body.email
-        const senha = req.body.senha
+        const { email, senha } = req.body
         usuarios.buscarPorEmail(email)
-            .then(resultado => {
-                if (senha != resultado[0].senha) return res.status(400).json('Usuario não autenticado')
-                return res.status(200).json(resultado)
+            .then(usuario => {
+                if (senha != usuario[0].senha) return res.status(400).json({ error: 'Senha incorreta' })
+                usuario[0].senha = undefined
+
+                const token = jwt.sign({ id: usuario[0].id }, authConfig.secret, {
+                    expiresIn: 86400,
+                })
+
+                return res.status(200).json({usuario, token})
             })
-            .catch(erro => res.status(400).json('Não achei'))
+            .catch(erro => res.status(400).json({ error: 'Usuario não autenticado' }))
     })
 }

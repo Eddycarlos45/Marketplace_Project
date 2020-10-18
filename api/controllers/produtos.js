@@ -1,9 +1,10 @@
 const produtos = require('../models/produtos')
 const validator = require('../util/validator')
+const auth = require('../util/auth')
 
 module.exports = (app) => {
 
-    app.get('/produtos', (req, res) => {
+    app.get('/produtos', auth, (req, res, next) => {
         produtos.lista()
             .then(lista => {
                 return res.status(200).json(lista)
@@ -11,7 +12,7 @@ module.exports = (app) => {
             .catch(erro => res.status(400).json(erro))
     })
 
-    app.post('/produtos', (req, res) => {
+    app.post('/produtos', auth, (req, res) => {
         const produto = req.body
         const { valid, errosForm } = validator.validaForm(produto);
         if (!valid) return res.status(400).json(errosForm)
@@ -23,7 +24,7 @@ module.exports = (app) => {
             .catch(erro => res.status(400).json(erro))
     })
 
-    app.delete('/produtos/:id', (req, res) => {
+    app.delete('/produtos/:id', auth, (req, res) => {
         const id = parseInt(req.params.id)
         produtos.remove(id)
             .then(() => {
@@ -32,7 +33,7 @@ module.exports = (app) => {
             .catch(erro => res.status(400).json(erro))
     })
 
-    app.put('/produtos/:id', (req, res) => {
+    app.put('/produtos/:id', auth, (req, res) => {
         const id = parseInt(req.params.id)
         const produto = req.body
         produtos.edita(id, produto)
