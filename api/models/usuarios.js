@@ -13,5 +13,18 @@ class Usuarios {
             }
         })
     }
+
+    buscarPorEmail(email) {
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT * FROM Usuarios WHERE email=?`
+
+            conexao.query(sql, email, (erro, resultado) => {
+                if (erro) return reject(erro)
+                return resolve(resultado)
+            })
+        })
+
+
+    }
 }
 module.exports = new Usuarios
