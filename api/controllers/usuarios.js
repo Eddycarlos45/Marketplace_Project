@@ -17,7 +17,7 @@ module.exports = (app) => {
         const { email, senha } = req.body
         usuarios.buscarPorEmail(email)
             .then(usuario => {
-                if (senha != usuario[0].senha) return res.status(400).json({ error: 'Senha incorreta' })
+                if (senha != usuario[0].senha) return res.status(400).json({ senha: 'Senha incorreta' })
                 usuario[0].senha = undefined
 
                 const token = jwt.sign({ id: usuario[0].id }, authConfig.secret, {
@@ -26,6 +26,6 @@ module.exports = (app) => {
 
                 return res.status(200).json({usuario, token})
             })
-            .catch(erro => res.status(400).json({ error: 'Usuario não autenticado' }))
+            .catch(erro => res.status(400).json({ email: 'Usuario não autenticado' }))
     })
 }
