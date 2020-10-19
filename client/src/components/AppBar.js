@@ -37,6 +37,11 @@ export default function DenseAppBar(props) {
     setAnchorEl(null);
   };
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    window.location.replace("/")
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -57,6 +62,7 @@ export default function DenseAppBar(props) {
         onClose={handleClose}
       >
         <Link className={classes.link} to="/produtos/form"><MenuItem onClick={handleClose}>Adicionar</MenuItem></Link>
+        <Link className={classes.link} to="/"><MenuItem onClick={logout}>Sair</MenuItem></Link>
       </Menu>
     </div>
   );

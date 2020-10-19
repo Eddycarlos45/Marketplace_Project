@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import { login } from '../../utils/auth'
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -48,6 +50,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
     const classes = useStyles();
+    const [errors, setErrors] = React.useState({})
+    const [values, setValues] = React.useState({
+        email: '',
+        senha: ''
+    })
+
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value })
+    }
+
+    const logar = (event) => {
+        event.preventDefault()
+        const authUser = {
+            email: values.email,
+            senha: values.senha
+        }
+        login(authUser)
+            .then(res => {
+                localStorage.setItem('token', res.data.token)
+                window.location.replace("/produtos")
+            })
+            .catch(err => setErrors(err.response.data))
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -59,7 +84,7 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
         </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={(e) => logar(e)}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -70,6 +95,9 @@ export default function SignIn() {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        onChange={handleChange('email')}
+                        helperText={errors.email}
+                        error={errors.email ? true : false}
                     />
                     <TextField
                         variant="outlined"
@@ -81,6 +109,9 @@ export default function SignIn() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={handleChange('senha')}
+                        helperText={errors.senha}
+                        error={errors.senha ? true : false}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
