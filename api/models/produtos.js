@@ -13,14 +13,25 @@ class Produtos {
         })
     }
 
+    buscaPorId(id) {
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT * FROM Produtos WHERE id=?`
+
+            conexao.query(sql, id, (erro, resultado) => {
+                if (erro) return reject(erro)
+                return resolve(resultado)
+            })
+        })
+    }
+
     adiciona(produto) {
         return new Promise((resolve, reject) => {
             const sql = `INSERT INTO Produtos SET ?`
 
-            conexao.query(sql, produto, (erro) => {
+            conexao.query(sql, produto, (erro, resultado) => {
                 if (erro) return reject(erro)
 
-                return resolve()
+                return resolve(resultado)
             })
         })
     }
